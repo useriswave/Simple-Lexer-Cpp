@@ -1,0 +1,15 @@
+int a = 3;
+int b = 3;
+int u = 1000;
+
+string fruit1 = "Apple";
+string fruit2 = "Pineapple";
+
+double d = 2.3;
+double b = 424.233;
+
+if (a >= b) {
+    print("A is greater than or equal to B!")
+} else {
+    print("A is less than B!")
+}
