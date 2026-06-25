@@ -1,15 +1,11 @@
 int a = 3;
-int b = 3;
-int u = 1000;
+int b=3;
 
-string fruit1 = "Apple";
-string fruit2 = "Pineapple";
-
-double d = 2.3;
-double b = 424.233;
+double d = 3.242;
+string fruit = "Apple";
 
 if (a >= b) {
-    print("A is greater than or equal to B!")
+    print("A is greater than or equal to b!\n");
 } else {
-    print("A is less than B!")
+    print("A is less than b!\n");
 }

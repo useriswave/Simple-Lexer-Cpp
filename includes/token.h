@@ -24,5 +24,4 @@ std::string lexeme_{};
 
     std::string_view toString(TokenType type);
     std::ostream& operator<<(std::ostream& out, const Token& t);
-    bool validateIdent();
 }
