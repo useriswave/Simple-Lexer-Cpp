@@ -5,7 +5,7 @@
 
 const std::vector<Dumblang::Token>& Lexer::tokenize()
 {
-    for (; current_ <= code_.length(); )  {
+    for (; current_ < code_.length(); )  {
         if (std::isspace(code_[current_])) {
             ++current_;
         } else if (std::isalpha(code_[current_]) || code_[current_] == '_') {
