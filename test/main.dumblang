@@ -1,11 +1,7 @@
-int a = 3;
-int b=3;
+int x =3;
+double d = 2.234234;
 
-double d = 3.242;
-string fruit = "Apple";
+string name = "Johnny Went to the store";
 
-if (a >= b) {
-    print("A is greater than or equal to b!\n");
-} else {
-    print("A is less than b!\n");
-}
+a >= b
+> < =

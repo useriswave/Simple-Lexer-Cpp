@@ -18,7 +18,8 @@ namespace Dumblang
             : lexeme_ { unknownChar }
             , type_ { type }
         {}
-std::string lexeme_{};
+
+        std::string lexeme_{};      // MOST LIKELY should be string_view
         TokenType type_{};
     };
 
