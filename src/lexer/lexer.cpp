@@ -1,17 +1,17 @@
 #include "../../includes/lexer.h"
 #include "../../includes/token.h"
 
-#include <algorithm>
 #include <cctype>
+#include <string_view>
 
 const std::vector<Dumblang::Token>& Lexer::tokenize()
 {
-    for (; current_ < code_.length(); start_ = current_)  {
-        if (std::isspace(code_[current_])) {
+    while (!isEOF()) {
+        if (std::isspace(peek())) {
             skipWhiteSpace();
-        } else if (std::isalpha(code_[current_]) || code_[current_] == '_') {
+        } else if (std::isalpha(peek()) || peek() == '_') {
             handleAlpha();
-        } else if (std::isdigit(code_[current_])) {
+        } else if (std::isdigit(peek())) {
             handleNumber();
         } else {
             try {
@@ -20,6 +20,8 @@ const std::vector<Dumblang::Token>& Lexer::tokenize()
                 throw;
             }
         }
+
+        start_ = current_;
     }
 
     return tokens_;
@@ -27,52 +29,50 @@ const std::vector<Dumblang::Token>& Lexer::tokenize()
 
 void Lexer::handleSingleChar()
 {
-    switch (code_[current_])
+    switch (peek())
     {
-    case '+': tokens_.emplace_back("+", TokenType::Plus); break;
-    case '-': tokens_.emplace_back("-", TokenType::Minus); break;
-    case '*': tokens_.emplace_back("*", TokenType::Star); break;
-    case '/': tokens_.emplace_back("/", TokenType::Slash); break;
-    case '=': tokens_.emplace_back("=", TokenType::Equals); break;
-    case '(': tokens_.emplace_back("(", TokenType::LeftParentheses); break;
-    case ')': tokens_.emplace_back(")", TokenType::RightParentheses); break;
-    case '[': tokens_.emplace_back("[", TokenType::LeftBracket); break;
-    case ']': tokens_.emplace_back("]", TokenType::RightBracket); break;
-    case '{': tokens_.emplace_back("{", TokenType::LeftBrace); break;
-    case '}': tokens_.emplace_back("}", TokenType::RightBrace); break;
-    case ',': tokens_.emplace_back(",", TokenType::Comma); break;
-    case '.': tokens_.emplace_back(".", TokenType::Dot); break;
-    case ';': tokens_.emplace_back(";", TokenType::Semicolon); break;
-    case ':': tokens_.emplace_back(":", TokenType::Colon); break;
+    case '+': addToken("+", TokenType::Plus); break;
+    case '-': addToken("-", TokenType::Minus); break;
+    case '*': addToken("*", TokenType::Star); break;
+    case '/': addToken("/", TokenType::Slash); break;
+    case '=': addToken("=", TokenType::Equals); break;
+    case '(': addToken("(", TokenType::LeftParentheses); break;
+    case ')': addToken(")", TokenType::RightParentheses); break;
+    case '[': addToken("[", TokenType::LeftBracket); break;
+    case ']': addToken("]", TokenType::RightBracket); break;
+    case '{': addToken("{", TokenType::LeftBrace); break;
+    case '}': addToken("}", TokenType::RightBrace); break;
+    case ',': addToken(",", TokenType::Comma); break;
+    case '.': addToken(".", TokenType::Dot); break;
+    case ';': addToken(";", TokenType::Semicolon); break;
+    case ':': addToken(":", TokenType::Colon); break;
     case '"': handleString(); break;
 
     // greater, less than or equal
     case '>':
             if (!isEOF() && peekNext() == '=') {
-                tokens_.emplace_back(">=", TokenType::GreaterThanOrEqual);
-                ++current_;     // skip equal
+                addToken(">=", TokenType::GreaterThanOrEqual);
+                advance();
             } else
-                tokens_.emplace_back(">", TokenType::GreaterThan);
+                addToken(">", TokenType::GreaterThan);
 
     break;
     case '<':
             if (!isEOF() && peekNext() == '=') {
-                tokens_.emplace_back("<=", TokenType::LessThanOrEqual);
-                ++current_;
+                addToken("<=", TokenType::LessThanOrEqual);
+                advance();
             } else
-                tokens_.emplace_back("<", TokenType::LessThan);
+                addToken("<", TokenType::LessThan);
     break;
     default:
-            tokens_.emplace_back(code_[current_], TokenType::Unknown);
+            addToken(std::string({ peek() }), TokenType::Unknown);
     }
 
-    current_++;
+    advance();
 }
 
 TokenType Lexer::checkKeyword(std::string_view lexeme)
 {
-    TokenType type{};
-
     if      (lexeme == "if") return TokenType::If;
     else if (lexeme == "else") return TokenType::Else;
     else if (lexeme == "while") return TokenType::While;
@@ -84,12 +84,7 @@ TokenType Lexer::checkKeyword(std::string_view lexeme)
     else if (lexeme == "boolean")return TokenType::Boolean;
     else if (lexeme == "void") return TokenType::Void;
     else if (lexeme == "null") return TokenType::Null;
-    else return TokenType::Unknown;
-}
-
-bool Lexer::isEOF() const
-{
-    return current_ >= code_.length();
+    else return TokenType::Ident;
 }
 
 void Lexer::handleAlpha()
@@ -98,14 +93,7 @@ void Lexer::handleAlpha()
         advance();
     }
 
-    auto lexeme { code_.substr(start_, current_ - start_) };    // could potentially make a helper for this
-    TokenType type { checkKeyword(lexeme) };
-
-    if (type != TokenType::Unknown) {
-        addToken(lexeme, type);
-    } else {
-        addToken(lexeme, TokenType::Ident);
-    }
+    addToken(substr(),  checkKeyword(substr()));
 }
 
 void Lexer::handleNumber()
@@ -123,13 +111,7 @@ void Lexer::handleNumber()
         advance();
     }
 
-    auto lexeme { code_.substr(start_, current_ - start_) };
-
-    if (hasDecimal) {
-        addToken(lexeme, TokenType::DoubleLiteral);
-    } else {
-        addToken(lexeme, TokenType::IntegerLiteral);
-    }
+    addToken(substr(), hasDecimal ? TokenType::DoubleLiteral : TokenType::IntegerLiteral);
 }
 
 void Lexer::handleString()
@@ -145,8 +127,7 @@ void Lexer::handleString()
         advance();
     }
 
-    auto lexeme { code_.substr(start_, current_ - start_) };
-    addToken(lexeme, TokenType::StringLiteral);
+    addToken(substr(), TokenType::StringLiteral);
 }
 
 void Lexer::skipWhiteSpace()
@@ -161,6 +142,11 @@ void Lexer::skipWhiteSpace()
             break;
         }
     }
+}
+
+bool Lexer::isEOF() const
+{
+    return current_ >= code_.length();
 }
 
 char Lexer::peek() const
@@ -181,11 +167,6 @@ char Lexer::peekNext() const
     return code_[current_+1];
 }
 
-/*
-*   i could've done: return code_[++current_];
-*   but this will do incase i have more things to track
-*/
-
 char Lexer::advance()
 {
     char c { peek() };
@@ -199,3 +180,7 @@ void Lexer::addToken(std::string_view lexeme, TokenType type)
     tokens_.emplace_back(lexeme, type);
 }
 
+std::string_view Lexer::substr()
+{
+    return code_.substr(start_, current_ - start_);
+}

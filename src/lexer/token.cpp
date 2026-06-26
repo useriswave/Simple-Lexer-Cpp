@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string_view> //here
 
-std::string_view Dumblang::toString(TokenType type)
+std::string_view Dumblang::toStr(TokenType type)
 {
     switch (type)
     {
@@ -53,5 +53,5 @@ std::string_view Dumblang::toString(TokenType type)
 
 std::ostream& Dumblang::operator<<(std::ostream& out, const Token& t)
 {
-    return out << "Lexeme: " << t.lexeme_ << "\t " << "TokenType: " << Dumblang::toString(t.type_) << '\n';
+    return out << "Lexeme: " << t.lexeme_ << "\t " << "TokenType: " << Dumblang::toStr(t.type_) << '\n';
 }

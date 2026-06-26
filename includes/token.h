@@ -14,15 +14,10 @@ namespace Dumblang
             , type_ { type }
         {}
 
-        Token(char unknownChar, TokenType type)
-            : lexeme_ { unknownChar }
-            , type_ { type }
-        {}
-
-        std::string lexeme_{};      // MOST LIKELY should be string_view
+        std::string_view lexeme_{};
         TokenType type_{};
     };
 
-    std::string_view toString(TokenType type);
+    std::string_view toStr(TokenType type);
     std::ostream& operator<<(std::ostream& out, const Token& t);
 }
