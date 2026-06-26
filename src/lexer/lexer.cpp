@@ -29,46 +29,33 @@ const std::vector<Dumblang::Token>& Lexer::tokenize()
 
 void Lexer::handleSingleChar()
 {
-    switch (peek())
+    switch (advance())
     {
-    case '+': addToken("+", TokenType::Plus); break;
-    case '-': addToken("-", TokenType::Minus); break;
-    case '*': addToken("*", TokenType::Star); break;
-    case '/': addToken("/", TokenType::Slash); break;
-    case '=': addToken("=", TokenType::Equals); break;
-    case '(': addToken("(", TokenType::LeftParentheses); break;
-    case ')': addToken(")", TokenType::RightParentheses); break;
-    case '[': addToken("[", TokenType::LeftBracket); break;
-    case ']': addToken("]", TokenType::RightBracket); break;
-    case '{': addToken("{", TokenType::LeftBrace); break;
-    case '}': addToken("}", TokenType::RightBrace); break;
-    case ',': addToken(",", TokenType::Comma); break;
-    case '.': addToken(".", TokenType::Dot); break;
-    case ';': addToken(";", TokenType::Semicolon); break;
-    case ':': addToken(":", TokenType::Colon); break;
+    case '+': addToken(TokenType::Plus); break;
+    case '-': addToken(TokenType::Minus); break;
+    case '*': addToken(TokenType::Star); break;
+    case '/': addToken(TokenType::Slash); break;
+    case '(': addToken(TokenType::LeftParentheses); break;
+    case ')': addToken(TokenType::RightParentheses); break;
+    case '[': addToken(TokenType::LeftBracket); break;
+    case ']': addToken(TokenType::RightBracket); break;
+    case '{': addToken(TokenType::LeftBrace); break;
+    case '}': addToken(TokenType::RightBrace); break;
+    case ',': addToken(TokenType::Comma); break;
+    case '.': addToken(TokenType::Dot); break;
+    case ';': addToken(TokenType::Semicolon); break;
+    case ':': addToken(TokenType::Colon); break;
     case '"': handleString(); break;
 
-    // greater, less than or equal
-    case '>':
-            if (!isEOF() && peekNext() == '=') {
-                addToken(">=", TokenType::GreaterThanOrEqual);
-                advance();
-            } else
-                addToken(">", TokenType::GreaterThan);
+    // double chars
+    case '=': addToken(advanceIf('=') ? TokenType::EqualsEquals : TokenType::Equals); break;
+    case '>': addToken(advanceIf('=') ? TokenType::GreaterThanOrEqual : TokenType::GreaterThan); break;
+    case '<': addToken(advanceIf('=') ? TokenType::LessThanOrEqual : TokenType::LessThan); break;
+    case '&': addToken(advanceIf('&') ? TokenType::AndAnd : TokenType::And); break;
+    case '|': addToken(advanceIf('|') ? TokenType::OrOr : TokenType::Or); break;
 
-    break;
-    case '<':
-            if (!isEOF() && peekNext() == '=') {
-                addToken("<=", TokenType::LessThanOrEqual);
-                advance();
-            } else
-                addToken("<", TokenType::LessThan);
-    break;
-    default:
-            addToken(std::string({ peek() }), TokenType::Unknown);
+    default:  addToken(TokenType::Unknown);
     }
-
-    advance();
 }
 
 TokenType Lexer::checkKeyword(std::string_view lexeme)
@@ -93,7 +80,7 @@ void Lexer::handleAlpha()
         advance();
     }
 
-    addToken(substr(),  checkKeyword(substr()));
+    addToken(checkKeyword(substr()));
 }
 
 void Lexer::handleNumber()
@@ -111,7 +98,7 @@ void Lexer::handleNumber()
         advance();
     }
 
-    addToken(substr(), hasDecimal ? TokenType::DoubleLiteral : TokenType::IntegerLiteral);
+    addToken(hasDecimal ? TokenType::DoubleLiteral : TokenType::IntegerLiteral);
 }
 
 void Lexer::handleString()
@@ -127,7 +114,7 @@ void Lexer::handleString()
         advance();
     }
 
-    addToken(substr(), TokenType::StringLiteral);
+    addToken(TokenType::StringLiteral);
 }
 
 void Lexer::skipWhiteSpace()
@@ -175,12 +162,26 @@ char Lexer::advance()
     return c;
 }
 
-void Lexer::addToken(std::string_view lexeme, TokenType type)
+bool Lexer::advanceIf(char c)
 {
-    tokens_.emplace_back(lexeme, type);
+    if (peek() == c) {
+        advance();
+        return true;
+    }
+
+    return false;
 }
 
-std::string_view Lexer::substr()
+void Lexer::addToken(TokenType type)
 {
+    tokens_.emplace_back(substr(), type);
+}
+
+std::string_view Lexer::substr() const
+{
+    if (isEOF()) {
+        return "";
+    }
+
     return code_.substr(start_, current_ - start_);
 }

@@ -28,8 +28,9 @@ private:
     char peek() const;
     char peekNext() const;
     char advance();
-    void addToken(std::string_view lexeme, TokenType type);
-    std::string_view substr();
+    bool advanceIf(char c);
+    void addToken(TokenType type);
+    std::string_view substr() const;
 
 private:
     std::vector<Dumblang::Token> tokens_{};

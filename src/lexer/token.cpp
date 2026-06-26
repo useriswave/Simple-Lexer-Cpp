@@ -17,10 +17,16 @@ std::string_view Dumblang::toStr(TokenType type)
         case TokenType::Star: return "*";
         case TokenType::Slash: return "/";
         case TokenType::Equals: return "=";
+        case TokenType::EqualsEquals: return "==";
         case TokenType::GreaterThan: return ">";
         case TokenType::GreaterThanOrEqual: return ">=";
         case TokenType::LessThan: return "<";
         case TokenType::LessThanOrEqual: return "<=";
+        case TokenType::And: return "And";
+        case TokenType::AndAnd: return "AndAnd";
+        case TokenType::Or: return "Or";
+        case TokenType::OrOr: return "OrOr";
+        case TokenType::Not: return "Not";
 
         case TokenType::LeftParentheses: return "(";
         case TokenType::RightParentheses: return ")";
@@ -53,5 +59,5 @@ std::string_view Dumblang::toStr(TokenType type)
 
 std::ostream& Dumblang::operator<<(std::ostream& out, const Token& t)
 {
-    return out << "Lexeme: " << t.lexeme_ << "\t " << "TokenType: " << Dumblang::toStr(t.type_) << '\n';
+    return out << "Lexeme: " << t.lexeme_ << "\t " << "TokenType: " << Dumblang::toStr(t.type_);
 }

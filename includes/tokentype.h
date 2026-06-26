@@ -16,10 +16,16 @@ enum class TokenType
     Star,
     Slash,
     Equals,
+    EqualsEquals,
     GreaterThan,
     GreaterThanOrEqual,
     LessThan,
     LessThanOrEqual,
+    And,
+    AndAnd,
+    Or,
+    OrOr,
+    Not,
 
     // MISC
 

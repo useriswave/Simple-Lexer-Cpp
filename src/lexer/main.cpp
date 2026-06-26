@@ -7,7 +7,7 @@
 void printTokens(const std::vector<Dumblang::Token>& tokens)
 {
     for (const auto& token : tokens) {
-        std::cout << token;
+        std::cout << token << '\n';
     }
 }
 
