@@ -19,7 +19,7 @@ public:
 
 private:
     TokenType checkKeyword(std::string_view buffer);
-    bool isValidIdentifier(const std::string& buffer);
+    static bool isValidIdentifier(const std::string& buffer);
     void handleSingleChar();
     void handleAlpha();
     void handleNumber();

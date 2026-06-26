@@ -1,11 +1,12 @@
 #include "../../includes/lexer.h"
 #include "../../includes/token.h"
 
+#include <algorithm>
 #include <cctype>
 
 const std::vector<Dumblang::Token>& Lexer::tokenize()
 {
-    for (; current_ < code_.length(); )  {
+    while (current_ < code_.length())  {
         if (std::isspace(code_[current_])) {
             ++current_;
         } else if (std::isalpha(code_[current_]) || code_[current_] == '_') {
@@ -47,7 +48,7 @@ void Lexer::handleSingleChar()
 
     // greater - less than OR equal
     case '>':
-            if (current_+1 < code_.length() && code_[current_+1] == '=') {
+            if (!isEOF() && code_[current_+1] == '=') {
                 tokens_.emplace_back(">=", TokenType::GreaterThanOrEqual);
                 ++current_;     // skip checked equal
             } else
@@ -131,13 +132,9 @@ void Lexer::handleNumber()
 
 bool Lexer::isValidIdentifier(const std::string& buffer)
 {
-    for (const auto& c : buffer) {
-        if (!std::isalnum(c) || c != '_') {
-            return false;
-        }
-    }
-
-    return true;
+    return std::all_of(buffer.begin(), buffer.end(), [](unsigned char c){
+        return std::isalnum(c) || c == '_';
+    });
 }
 
 void Lexer::handleString()
