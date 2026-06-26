@@ -1,9 +1,6 @@
 #include "../../includes/lexer.h"
 #include "../../includes/token.h"
 
-#include <cctype>
-#include <string_view>
-
 const std::vector<Dumblang::Token>& Lexer::tokenize()
 {
     while (!isEOF()) {
@@ -119,11 +116,9 @@ void Lexer::handleString()
 
 void Lexer::skipWhiteSpace()
 {
-    while (!isEOF()) {
+    for (; !isEOF(); advance()) {
         if (current() == ' ' || current() == '\t') {
-            advance();
         } else if (current() == '\n') {
-            advance();
             ++m_line;
         } else {
             break;
