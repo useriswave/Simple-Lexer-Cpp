@@ -26,7 +26,7 @@ private:
     void skipWhiteSpace();
     bool isEOF() const;
     char current() const;
-    char peekNext() const;
+    char peek() const;
     char advance();
     bool advanceIf(char c);
     void addToken(TokenType type);

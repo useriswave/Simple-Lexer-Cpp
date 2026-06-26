@@ -145,7 +145,7 @@ char Lexer::current() const
     return m_sourceCode[m_curr];
 }
 
-char Lexer::peekNext() const
+char Lexer::peek() const
 {
     if (isEOF()) {
         return '\0';
