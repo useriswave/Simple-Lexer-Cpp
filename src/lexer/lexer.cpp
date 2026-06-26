@@ -7,11 +7,11 @@
 const std::vector<Dumblang::Token>& Lexer::tokenize()
 {
     while (!isEOF()) {
-        if (std::isspace(peek())) {
+        if (std::isspace(current())) {
             skipWhiteSpace();
-        } else if (std::isalpha(peek()) || peek() == '_') {
+        } else if (std::isalpha(current()) || current() == '_') {
             handleAlpha();
-        } else if (std::isdigit(peek())) {
+        } else if (std::isdigit(current())) {
             handleNumber();
         } else {
             try {
@@ -21,7 +21,7 @@ const std::vector<Dumblang::Token>& Lexer::tokenize()
             }
         }
 
-        start_ = current_;
+        m_start = m_curr;
     }
 
     return tokens_;
@@ -76,7 +76,7 @@ TokenType Lexer::checkKeyword(std::string_view lexeme)
 
 void Lexer::handleAlpha()
 {
-    while (std::isalnum(peek()) || peek() == '_') {
+    while (std::isalnum(current()) || current() == '_') {
         advance();
     }
 
@@ -87,8 +87,8 @@ void Lexer::handleNumber()
 {
     bool hasDecimal{};
 
-    while (std::isdigit(peek()) || peek() == '.') {
-        if (peek() == '.') {
+    while (std::isdigit(current()) || current() == '.') {
+        if (current() == '.') {
             if (hasDecimal)
                 break;
 
@@ -104,9 +104,9 @@ void Lexer::handleNumber()
 void Lexer::handleString()
 {
     advance();
-    ++start_;
+    ++m_start;
 
-    while (peek() != '"') {
+    while (current() != '"') {
         if (isEOF()) {
             throw std::runtime_error{"ERROR: Reached EOF while tokenizing string.\n" };
         }
@@ -120,11 +120,11 @@ void Lexer::handleString()
 void Lexer::skipWhiteSpace()
 {
     while (!isEOF()) {
-        if (peek() == ' ' || peek() == '\t') {
+        if (current() == ' ' || current() == '\t') {
             advance();
-        } else if (peek() == '\n') {
+        } else if (current() == '\n') {
             advance();
-            ++line_;
+            ++m_line;
         } else {
             break;
         }
@@ -133,16 +133,16 @@ void Lexer::skipWhiteSpace()
 
 bool Lexer::isEOF() const
 {
-    return current_ >= code_.length();
+    return m_curr >= m_sourceCode.length();
 }
 
-char Lexer::peek() const
+char Lexer::current() const
 {
     if (isEOF()) {
         return '\0';
     }
 
-    return code_[current_];
+    return m_sourceCode[m_curr];
 }
 
 char Lexer::peekNext() const
@@ -151,20 +151,20 @@ char Lexer::peekNext() const
         return '\0';
     }
 
-    return code_[current_+1];
+    return m_sourceCode[m_curr+1];
 }
 
 char Lexer::advance()
 {
-    char c { peek() };
-    ++current_;
+    char c { current() };
+    ++m_curr;
 
     return c;
 }
 
 bool Lexer::advanceIf(char c)
 {
-    if (peek() == c) {
+    if (current() == c) {
         advance();
         return true;
     }
@@ -183,5 +183,5 @@ std::string_view Lexer::substr() const
         return "";
     }
 
-    return code_.substr(start_, current_ - start_);
+    return m_sourceCode.substr(m_start, m_curr - m_start);
 }

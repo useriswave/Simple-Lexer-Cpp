@@ -9,8 +9,8 @@
 class Lexer
 {
 public:
-    Lexer(std::string_view code)
-        : code_ { code }
+    Lexer(std::string_view sourceCode)
+        : m_sourceCode { sourceCode }
     {}
 
 public:
@@ -25,7 +25,7 @@ private:
     void handleString();
     void skipWhiteSpace();
     bool isEOF() const;
-    char peek() const;
+    char current() const;
     char peekNext() const;
     char advance();
     bool advanceIf(char c);
@@ -34,8 +34,8 @@ private:
 
 private:
     std::vector<Dumblang::Token> tokens_{};
-    std::string_view code_{};
-    std::size_t current_{};
-    std::size_t start_{};
-    std::size_t line_{ 1 };
+    std::string_view m_sourceCode{};
+    std::size_t m_curr{};
+    std::size_t m_start{};
+    std::size_t m_line{ 1 };
 };
