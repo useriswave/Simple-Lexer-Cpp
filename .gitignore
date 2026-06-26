@@ -1,5 +1,5 @@
 .clangd
 .clang-tidy
-main
+src/main
 *.out
 *.exe
