@@ -6,10 +6,10 @@
 #include <string>
 #include <vector>
 
-class Lexer
+class Lexer final
 {
 public:
-    Lexer(std::string_view sourceCode)
+    explicit Lexer(std::string_view sourceCode)
         : m_sourceCode { sourceCode }
     {}
 
