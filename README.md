@@ -10,7 +10,9 @@ g++ g++ main.cpp lexer.cpp token.cpp filereader.cpp -o main
 ```
 
 **run:**  
-```./main```
+```
+./main
+```
 
 You will be met with the following output:
 ```
