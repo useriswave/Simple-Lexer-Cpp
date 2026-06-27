@@ -1,11 +1,19 @@
-int x =3;
-double d = 2.234234;
+int x = 3;
+int y=5;
 
-string name = "Johnny Went to the store";
+double d = 2.3;
+    string a = "Hello";
 
-a >= b
-> < =
-
-if(a == b) {
-
+while (true) {
+    print(a);
 }
+
+for (int i = 0; i < 10; ++i) {
+    print(i + ' ');
+}
+
+
+if (x >= y || (x < y && x == 3) {
+    print("One of those conditions is true!")
+}
+

@@ -26,7 +26,7 @@ const std::vector<Dumblang::Token>& Lexer::tokenize()
 
 void Lexer::handleSingleChar()
 {
-    switch (advance())
+    switch (advance())      // FIRST TIME: Curr = 0, start = 0, the char is '"'
     {
     case '+': addToken(TokenType::Plus); break;
     case '-': addToken(TokenType::Minus); break;
@@ -42,7 +42,7 @@ void Lexer::handleSingleChar()
     case '.': addToken(TokenType::Dot); break;
     case ';': addToken(TokenType::Semicolon); break;
     case ':': addToken(TokenType::Colon); break;
-    case '"': handleString(); break;
+    case '"': handleString(); break;        // FIRST TIME: Curr = 1 (advance) , start = 0, the char is 'H'
 
     // double chars
     case '=': addToken(advanceIf('=') ? TokenType::EqualsEquals : TokenType::Equals); break;
@@ -112,6 +112,7 @@ void Lexer::handleString()
     }
 
     addToken(TokenType::StringLiteral);
+    advance();
 }
 
 void Lexer::skipWhiteSpace()

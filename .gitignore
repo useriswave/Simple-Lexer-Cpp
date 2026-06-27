@@ -1,5 +1,7 @@
 .clangd
 .clang-tidy
+src/lexer/main.out
+src/lexer/main.*
 src/lexer/main
 *.out
 *.exe

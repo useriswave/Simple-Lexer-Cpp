@@ -9,13 +9,12 @@
 class Lexer final
 {
 public:
-    explicit Lexer(std::string_view sourceCode)
+    Lexer(std::string_view sourceCode)
         : m_sourceCode { sourceCode }
     {}
 
 public:
     const std::vector<Dumblang::Token>& tokenize();
-    const std::vector<Dumblang::Token>& getTokens() const { return tokens_; }
 
 private:
     TokenType checkKeyword(std::string_view lexeme);
