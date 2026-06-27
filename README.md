@@ -5,10 +5,10 @@
 Inside **src/lexer/** run the following command:  
 
 **compile:**  
-``g++ g++ main.cpp lexer.cpp token.cpp filereader.cpp -o main ``
+```g++ g++ main.cpp lexer.cpp token.cpp filereader.cpp -o main```
 
 **run:**  
-``./main``
+```./main```
 
 You will be met with the following output:
 ```
@@ -27,7 +27,7 @@ Enter the code file path:
 ```
 If you want to use one of the code files from the **test/** folder, you need to enter the file name as such:  
 
-`../../test/file_name.dumblang`
+```../../test/file_name.dumblang```
 
 If you want to use your own files, you need to have your code written in a file with the extension **.dumblang**  and enter the full file path.
 
