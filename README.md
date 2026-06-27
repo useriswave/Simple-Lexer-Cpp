@@ -118,6 +118,7 @@ double a = 2.3
 if (fruit.length() >= 120) {
     print("Woah!");
 }
+
 Lexeme: string   TokenType: string
 Lexeme: fruit    TokenType: Ident
 Lexeme: =        TokenType: Equals
