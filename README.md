@@ -68,7 +68,7 @@ if (x <= y) {
 
 Once you press **CTRL+D**, you should instantly get the tokenized output.  
 
-Heres 2 sample outputs showcasing the program's functionality for cases **1** and **2**:
+## Heres 2 sample outputs showcasing the program's functionality for cases **1** and **2**:
 
 **Case 1:**
 ```
