@@ -19,7 +19,7 @@ std::string FileReader::readFile(const std::string& path)
     std::ifstream reader{ path };
 
     if (!reader) {
-        throw std::runtime_error{ "ERROR: Failed to open '" + path + "'"};
+        throw std::runtime_error{ "ERROR: file doesn't exist: '" + path + "'"};
     }
 
     std::string buffer{};

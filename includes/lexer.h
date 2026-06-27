@@ -17,22 +17,22 @@ public:
     const std::vector<Dumblang::Token>& tokenize();
 
 private:
-    TokenType checkKeyword(std::string_view lexeme);
+    static TokenType checkKeyword(std::string_view lexeme) noexcept;
     void handleSingleChar();
     void handleAlpha();
     void handleNumber();
     void handleString();
-    void skipWhiteSpace();
-    bool isEOF() const;
-    char current() const;
-    char peek() const;
-    char advance();
-    bool advanceIf(char c);
+    void skipWhiteSpace() noexcept;
+    bool isEOF() const noexcept;
+    char current() const noexcept;
+    char peek() const noexcept;
+    char advance() noexcept;
+    bool advanceIf(char c) noexcept;
     void addToken(TokenType type);
     std::string_view substr() const;
 
 private:
-    std::vector<Dumblang::Token> tokens_{};
+    std::vector<Dumblang::Token> m_tokens{};
     std::string_view m_sourceCode{};
     std::size_t m_curr{};
     std::size_t m_start{};

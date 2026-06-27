@@ -17,12 +17,12 @@ std::string inputCode();
 std::string getSourceCode();
 void printTokens(const std::vector<Dumblang::Token>& tokens);
 
-int main ()
+int main()
 {
     try {
-        std::string code { getSourceCode() };
+        std::string sourceCode{ getSourceCode() };
 
-        Lexer lexer{ code };
+        Lexer lexer{ sourceCode };
         printTokens(lexer.tokenize());
     } catch (const std::runtime_error& e) {
         std::cout << e.what();

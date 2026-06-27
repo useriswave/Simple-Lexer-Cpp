@@ -1,19 +1,7 @@
 int x = 3;
-int y=5;
-
 double d = 2.3;
-    string a = "Hello";
+string a = "Hello";
 
 while (true) {
     print(a);
 }
-
-for (int i = 0; i < 10; ++i) {
-    print(i + ' ');
-}
-
-
-if (x >= y || (x < y && x == 3) {
-    print("One of those conditions is true!")
-}
-

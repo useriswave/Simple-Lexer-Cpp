@@ -21,7 +21,7 @@ const std::vector<Dumblang::Token>& Lexer::tokenize()
         m_start = m_curr;
     }
 
-    return tokens_;
+    return m_tokens;
 }
 
 void Lexer::handleSingleChar()
@@ -55,7 +55,7 @@ void Lexer::handleSingleChar()
     }
 }
 
-TokenType Lexer::checkKeyword(std::string_view lexeme)
+TokenType Lexer::checkKeyword(std::string_view lexeme) noexcept
 {
     if      (lexeme == "if") return TokenType::If;
     else if (lexeme == "else") return TokenType::Else;
@@ -115,7 +115,7 @@ void Lexer::handleString()
     advance();      // IMPORTANT!!! SKIPS THE CLOSING (") WHEN LOOP BREAKS
 }
 
-void Lexer::skipWhiteSpace()
+void Lexer::skipWhiteSpace() noexcept
 {
     for (; !isEOF(); advance()) {
         if (current() == ' ' || current() == '\t') {
@@ -127,12 +127,12 @@ void Lexer::skipWhiteSpace()
     }
 }
 
-bool Lexer::isEOF() const
+bool Lexer::isEOF() const noexcept
 {
     return m_curr >= m_sourceCode.length();
 }
 
-char Lexer::current() const
+char Lexer::current() const noexcept
 {
     if (isEOF()) {
         return '\0';
@@ -141,16 +141,7 @@ char Lexer::current() const
     return m_sourceCode[m_curr];
 }
 
-char Lexer::peek() const
-{
-    if (isEOF()) {
-        return '\0';
-    }
-
-    return m_sourceCode[m_curr+1];
-}
-
-char Lexer::advance()
+char Lexer::advance() noexcept
 {
     char c { current() };
     ++m_curr;
@@ -158,7 +149,7 @@ char Lexer::advance()
     return c;
 }
 
-bool Lexer::advanceIf(char c)
+bool Lexer::advanceIf(char c) noexcept
 {
     if (current() == c) {
         advance();
@@ -170,7 +161,7 @@ bool Lexer::advanceIf(char c)
 
 void Lexer::addToken(TokenType type)
 {
-    tokens_.emplace_back(substr(), type);
+    m_tokens.emplace_back(substr(), type);
 }
 
 std::string_view Lexer::substr() const
