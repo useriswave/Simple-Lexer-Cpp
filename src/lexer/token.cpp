@@ -63,5 +63,5 @@ namespace
 
 std::ostream& Dumblang::operator<<(std::ostream& out, const Token& t)
 {
-    return out << "Lexeme: " << t.m_lexeme << "\t " << "TokenType: " << toStr(t.m_type);
+    return out << "Line: " << t.m_line << ": [" << "\"" << t.m_lexeme << "\", " << toStr(t.m_type) << ']';
 }

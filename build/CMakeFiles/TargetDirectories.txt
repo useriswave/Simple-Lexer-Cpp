@@ -1,0 +1,3 @@
+/home/wave/Documents/code/projects/C++/Lexer/build/CMakeFiles/dumblang.dir
+/home/wave/Documents/code/projects/C++/Lexer/build/CMakeFiles/edit_cache.dir
+/home/wave/Documents/code/projects/C++/Lexer/build/CMakeFiles/rebuild_cache.dir

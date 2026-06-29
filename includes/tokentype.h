@@ -16,6 +16,7 @@ enum class TokenType
     Minus,
     Star,
     Slash,
+    Comment,
     Equals,
     EqualsEquals,
     GreaterThan,
@@ -28,7 +29,6 @@ enum class TokenType
     Or,
     Not,
     NotEqual,
-
 
     // MISC
 
@@ -48,7 +48,7 @@ enum class TokenType
     // LITERAL TYPES
 
     IntegerLiteral,
-    FloatLiteral,
+    FloatLiteral,   // floats are a work in progress
     DoubleLiteral,
     StringLiteral,
 
@@ -56,7 +56,7 @@ enum class TokenType
 
     Integer,
     Double,
-    Float,
+    Float,          // work in progress
     String,
     Character,
     Boolean,

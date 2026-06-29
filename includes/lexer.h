@@ -22,6 +22,7 @@ private:
     void handleAlpha();
     void handleNumber();
     void handleString();
+    void handleComment();
     void skipWhiteSpace() noexcept;
     bool isEOF() const noexcept;
     char current() const noexcept;

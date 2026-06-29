@@ -1,6 +1,9 @@
 #include "../../includes/lexer.h"
 #include "../../includes/token.h"
 
+#include <fmt/format.h>
+#include <fmt/core.h>
+
 const std::vector<Dumblang::Token>& Lexer::tokenize()
 {
     while (!isEOF()) {
@@ -105,7 +108,7 @@ void Lexer::handleString()
 {
     for (++m_start; current() != '"'; advance()) {
         if (isEOF()) {
-            throw std::runtime_error{ "ERROR: Unterminated string." };
+            throw std::runtime_error{ fmt::format("LEXER ERROR: Unterminated string at line: {}.", m_line) };
         }
     }
 
@@ -168,7 +171,7 @@ bool Lexer::advanceIf(char c) noexcept
 
 void Lexer::addToken(TokenType type)
 {
-    m_tokens.emplace_back(substr(), type);
+    m_tokens.emplace_back(substr(), type, m_line);
 }
 
 std::string_view Lexer::substr() const

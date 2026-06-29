@@ -1,12 +1,18 @@
-""
-"hello"
-"hello world"
-"hello     world"
-"  hello  "
-"123456"
-"!@#$%^&*()_+-=[]{}"
-"int x = 5;"
-"2 + 2 = 4"
-"+ - * / == != <= >="
-"{ hello }"
-"(hello)"
+int x = 3;
+int y = null;
+
+# this is a bool function
+
+func bool foo(int x, int y)
+{
+    if ((x == null && x == void) || (y == null && y == void)) {
+        print("");
+    }
+}
+
+# this is a display function
+
+func void display(string content)
+{
+    print(content);
+}
