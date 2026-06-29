@@ -2,6 +2,7 @@
 .clang-tidy
 src/lexer/main.out
 src/lexer/main.*
+build/
 src/lexer/main
 *.out
 *.exe
