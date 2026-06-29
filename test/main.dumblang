@@ -1,7 +1,16 @@
 int x = 3;
 double d = 2.3;
 string a = "Hello";
+boolean equals = a == d;
 
-while (true) {
+func add(int x, int y) {
+    return x+y;
+}
+
+!
+!=
+=!
+
+if (!equals) {
     print(a);
 }

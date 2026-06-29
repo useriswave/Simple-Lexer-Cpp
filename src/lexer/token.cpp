@@ -12,6 +12,7 @@ namespace
             case TokenType::Else: return "else";
             case TokenType::For: return "for";
             case TokenType::While: return "while";
+            case TokenType::Func: return "Func";
             case TokenType::Plus: return "Plus";
             case TokenType::Minus: return "Minus";
             case TokenType::Star: return "Star";
@@ -22,11 +23,12 @@ namespace
             case TokenType::GreaterThanOrEqual: return "GreaterThanOrEquals";
             case TokenType::LessThan: return "LessThan";
             case TokenType::LessThanOrEqual: return "GreaterThan";
+            case TokenType::Ampersand: return "Ampersand";
             case TokenType::And: return "And";
-            case TokenType::AndAnd: return "AndComparison";
+            case TokenType::Pipe: return "Pipe";
             case TokenType::Or: return "Or";
-            case TokenType::OrOr: return "OrComparison";
             case TokenType::Not: return "Not";
+            case TokenType::NotEqual: return "NotEqual";
 
             case TokenType::LeftParentheses: return "LeftParentheses";
             case TokenType::RightParentheses: return "RightParentheses";

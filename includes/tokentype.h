@@ -8,6 +8,7 @@ enum class TokenType
     Else,
     For,
     While,
+    Func,
 
     // OPPERATORS
 
@@ -21,11 +22,13 @@ enum class TokenType
     GreaterThanOrEqual,
     LessThan,
     LessThanOrEqual,
+    Ampersand,
     And,
-    AndAnd,
+    Pipe,
     Or,
-    OrOr,
     Not,
+    NotEqual,
+
 
     // MISC
 

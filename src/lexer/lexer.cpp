@@ -26,7 +26,8 @@ const std::vector<Dumblang::Token>& Lexer::tokenize()
 
 void Lexer::handleSingleChar()
 {
-    switch (advance())
+    // advance() returns current char THEN increments m_curr
+    switch (advance())  // advance to read next char after switch eval
     {
     case '+': addToken(TokenType::Plus); break;
     case '-': addToken(TokenType::Minus); break;
@@ -48,19 +49,23 @@ void Lexer::handleSingleChar()
     case '=': addToken(advanceIf('=') ? TokenType::EqualsEquals : TokenType::Equals); break;
     case '>': addToken(advanceIf('=') ? TokenType::GreaterThanOrEqual : TokenType::GreaterThan); break;
     case '<': addToken(advanceIf('=') ? TokenType::LessThanOrEqual : TokenType::LessThan); break;
-    case '&': addToken(advanceIf('&') ? TokenType::AndAnd : TokenType::And); break;
-    case '|': addToken(advanceIf('|') ? TokenType::OrOr : TokenType::Or); break;
+    case '&': addToken(advanceIf('&') ? TokenType::And : TokenType::Ampersand); break;
+    case '|': addToken(advanceIf('|') ? TokenType::Or : TokenType::Pipe); break;
+    case '!': addToken(advanceIf('=') ? TokenType::NotEqual : TokenType::Not); break;
 
     default:  addToken(TokenType::Unknown);
     }
+
+    advance();
 }
 
 TokenType Lexer::checkKeyword(std::string_view lexeme) noexcept
 {
     if      (lexeme == "if") return TokenType::If;
     else if (lexeme == "else") return TokenType::Else;
-    else if (lexeme == "while") return TokenType::While;
     else if (lexeme == "for") return TokenType::For;
+    else if (lexeme == "while") return TokenType::While;
+    else if (lexeme == "func") return TokenType::Func;
     else if (lexeme == "int") return TokenType::Integer;
     else if (lexeme == "double") return TokenType::Double;
     else if (lexeme == "float") return TokenType::Float;
@@ -100,19 +105,13 @@ void Lexer::handleNumber()
 
 void Lexer::handleString()
 {
-    advance();
-    ++m_start;
-
-    while (current() != '"') {
+    for (++m_start; current() != '"'; advance()) {
         if (isEOF()) {
-            throw std::runtime_error{"ERROR: Reached EOF while tokenizing string.\n" };
+            throw std::runtime_error{ "ERROR: Unterminated string." };
         }
-
-        advance();
     }
 
     addToken(TokenType::StringLiteral);
-    advance();      // IMPORTANT!!! SKIPS THE CLOSING (") WHEN LOOP BREAKS
 }
 
 void Lexer::skipWhiteSpace() noexcept
@@ -166,7 +165,9 @@ void Lexer::addToken(TokenType type)
 
 std::string_view Lexer::substr() const
 {
-    if (isEOF()) {
+    auto s { m_sourceCode.substr(m_start, m_curr - m_start) };
+
+    if (isEOF() || s == "\"") {
         return "";
     }
 
