@@ -1,1 +1,0 @@
-/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/dumblang.dir/link.d CMakeFiles/dumblang.dir/src/lexer/main.cpp.o CMakeFiles/dumblang.dir/src/lexer/lexer.cpp.o CMakeFiles/dumblang.dir/src/lexer/token.cpp.o CMakeFiles/dumblang.dir/src/lexer/filereader.cpp.o -o dumblang  /usr/local/lib/libfmt.a
