@@ -26,8 +26,7 @@ const std::vector<Dumblang::Token>& Lexer::tokenize()
 
 void Lexer::handleSingleChar()
 {
-    // advance() returns current char THEN increments m_curr
-    switch (advance())  // advance to read next char after switch eval
+    switch (advance())
     {
     case '+': addToken(TokenType::Plus); break;
     case '-': addToken(TokenType::Minus); break;
@@ -43,6 +42,7 @@ void Lexer::handleSingleChar()
     case '.': addToken(TokenType::Dot); break;
     case ';': addToken(TokenType::Semicolon); break;
     case ':': addToken(TokenType::Colon); break;
+    case '#': handleComment(); break;
     case '"': handleString(); break;
 
     // double chars
@@ -55,8 +55,6 @@ void Lexer::handleSingleChar()
 
     default:  addToken(TokenType::Unknown);
     }
-
-    advance();
 }
 
 TokenType Lexer::checkKeyword(std::string_view lexeme) noexcept
@@ -112,6 +110,16 @@ void Lexer::handleString()
     }
 
     addToken(TokenType::StringLiteral);
+    advance();
+}
+
+void Lexer::handleComment()
+{
+    while (current() != '\n') {
+        advance();
+    }
+
+    addToken(TokenType::Comment);
 }
 
 void Lexer::skipWhiteSpace() noexcept

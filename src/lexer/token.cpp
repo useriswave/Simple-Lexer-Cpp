@@ -17,6 +17,7 @@ namespace
             case TokenType::Minus: return "Minus";
             case TokenType::Star: return "Star";
             case TokenType::Slash: return "Slash";
+            case TokenType::Comment: return "Comment";
             case TokenType::Equals: return "Equals";
             case TokenType::EqualsEquals: return "EqualsComparison";
             case TokenType::GreaterThan: return "GreaterThan";
